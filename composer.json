@@ -1,9 +1,9 @@
 {
-    "name": "lexik/currency-bundle",
+    "name": "mabzzz/currency-bundle",
     "type": "symfony-bundle",
-    "description": "This Symfony2 bundle provide a service and a Twig extension to convert and display currencies.",
-    "keywords": ["Symfony2", "bundle", "currency"],
-    "homepage": "https://github.com/lexik/LexikCurrencyBundle",
+    "description": "This is a fork of lexik/currency-bundle with added support for Symfony4",
+    "keywords": ["Symfony", "bundle", "currency"],
+    "homepage": "https://github.com/mabzzz/LexikCurrencyBundle",
     "license": "MIT",
     "authors": [
         {
@@ -13,6 +13,10 @@
         {
             "name": "Dev Lexik",
             "email": "dev@lexik.fr"
+        },
+        {
+            "name": "Mathieu Austruy",
+            "email": "mathieu@austruy.pro"
         }
     ],
     "require": {
