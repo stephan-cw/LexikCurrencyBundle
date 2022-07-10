@@ -35,7 +35,7 @@ class Currency
     /**
      * Get ID
      *
-     * @return string
+     * @return int
      */
     public function getId()
     {

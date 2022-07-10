@@ -5,7 +5,7 @@ namespace Lexik\Bundle\CurrencyBundle\Tests\Fixtures;
 use Lexik\Bundle\CurrencyBundle\Entity\Currency;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectManager;
 
 /**
  * Tests fixtures class.
@@ -15,7 +15,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 class CurrencyData implements FixtureInterface
 {
     /**
-     * @see Doctrine\Common\DataFixtures.FixtureInterface::load()
+     * @see \Doctrine\Common\DataFixtures.FixtureInterface::load()
      */
     public function load(ObjectManager $manager)
     {

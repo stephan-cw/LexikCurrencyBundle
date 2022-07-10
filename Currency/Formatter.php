@@ -2,6 +2,8 @@
 
 namespace Lexik\Bundle\CurrencyBundle\Currency;
 
+use NumberFormatter;
+
 /**
  * Currency formatter.
  *
@@ -20,12 +22,12 @@ class Formatter implements FormatterInterface
     protected $cleanCharacters;
 
     /**
-     * @param sting $locale
+     * @param string $locale
      */
     public function __construct($locale)
     {
         $this->locale = $locale;
-        $this->cleanCharacters = array('EU', 'UK', 'US');
+        $this->cleanCharacters = ['EU', 'UK', 'US'];
     }
 
     /**
@@ -33,7 +35,7 @@ class Formatter implements FormatterInterface
      */
     public function format($value, $valueCurrency = null, $decimal = true, $symbol = true)
     {
-        $formatter = new \NumberFormatter($this->locale, $symbol ? \NumberFormatter::CURRENCY : \NumberFormatter::PATTERN_DECIMAL);
+        $formatter = new NumberFormatter($this->locale, $symbol ? NumberFormatter::CURRENCY : NumberFormatter::PATTERN_DECIMAL);
         $value = $formatter->formatCurrency($value, $valueCurrency);
 
         if (!$decimal) {

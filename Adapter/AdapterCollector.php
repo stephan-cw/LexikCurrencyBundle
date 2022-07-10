@@ -9,12 +9,11 @@ use InvalidArgumentException;
  */
 final class AdapterCollector
 {
-    private $elements = array();
+    private $elements = [];
 
     /**
      * Add an adapter
      *
-     * @param mixed $key
      * @param AbstractCurrencyAdapter $adapter
      */
     public function add(AbstractCurrencyAdapter $adapter)

@@ -2,14 +2,16 @@
 
 namespace Lexik\Bundle\CurrencyBundle\Exception;
 
+use InvalidArgumentException;
+
 /**
  * @author Yoann Aparici <y.aparici@lexik.fr>
  * @author Cédric Girard <c.girard@lexik.fr>
  */
-class CurrencyNotFoundException extends \InvalidArgumentException
+class CurrencyNotFoundException extends InvalidArgumentException
 {
-    public function __construct($currency)
+    public function __construct(string $currency)
     {
-        parent::__construct(sprintf('Can\'t find currency: "%s"', $currency));
+        parent::__construct(sprintf('Cannot find currency: "%s"', $currency));
     }
 }

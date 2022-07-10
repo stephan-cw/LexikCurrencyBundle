@@ -2,6 +2,7 @@
 
 namespace Lexik\Bundle\CurrencyBundle\Adapter;
 
+use InvalidArgumentException;
 use Lexik\Bundle\CurrencyBundle\Exception\CurrencyNotFoundException;
 
 /**
@@ -80,7 +81,7 @@ class OerCurrencyAdapter extends AbstractCurrencyAdapter
 	public function getUrl()
 	{
 		if(!$this->appId)
-			throw new \InvalidArgumentException('OER_APP_ID must be set in order to use OerCurrencyAdapter');
+			throw new InvalidArgumentException('OER_APP_ID must be set in order to use OerCurrencyAdapter');
 		return sprintf("%s?app_id=%s", $this->url, $this->appId);
 	}
 

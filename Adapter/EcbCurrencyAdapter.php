@@ -2,6 +2,8 @@
 
 namespace Lexik\Bundle\CurrencyBundle\Adapter;
 
+use SimpleXMLElement;
+
 /**
  * @author Cédric Girard <c.girard@lexik.fr>
  * @author Yoann Aparici <y.aparici@lexik.fr>
@@ -40,7 +42,7 @@ class EcbCurrencyAdapter extends AbstractCurrencyAdapter
         // Get other currencies
         $xml = @simplexml_load_file($this->ecbUrl);
 
-        if ($xml instanceof \SimpleXMLElement) {
+        if ($xml instanceof SimpleXMLElement) {
             $data = $xml->xpath('//gesmes:Envelope/*[3]/*');
 
             foreach ($data[0]->children() as $child) {

@@ -2,7 +2,9 @@
 
 namespace Lexik\Bundle\CurrencyBundle\Adapter;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+use Exception;
+use RuntimeException;
 
 /**
  * @author Yoann Aparici <y.aparici@lexik.fr>
@@ -11,7 +13,7 @@ use Doctrine\ORM\EntityManager;
 class DoctrineCurrencyAdapter extends AbstractCurrencyAdapter
 {
     /**
-     * @var EntityManager
+     * @var EntityManagerInterface
      */
     private $manager;
 
@@ -39,9 +41,9 @@ class DoctrineCurrencyAdapter extends AbstractCurrencyAdapter
     }
 
     /**
-     * @param EntityManager $manager
+     * @param EntityManagerInterface $manager
      */
-    public function setManager(EntityManager $manager)
+    public function setManager(EntityManagerInterface $manager)
     {
         $this->manager = $manager;
     }
@@ -79,12 +81,12 @@ class DoctrineCurrencyAdapter extends AbstractCurrencyAdapter
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     private function initialize()
     {
         if (!isset($this->manager)) {
-            throw new \RuntimeException('No ObjectManager set on DoctrineCurrencyAdapter.');
+            throw new RuntimeException('No ObjectManager set on DoctrineCurrencyAdapter.');
         }
 
         $currencies = $this->manager

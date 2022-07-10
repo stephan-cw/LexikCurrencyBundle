@@ -2,7 +2,10 @@
 
 namespace Lexik\Bundle\CurrencyBundle\Twig\Extension;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Lexik\Bundle\CurrencyBundle\Currency\ConverterInterface;
+use Lexik\Bundle\CurrencyBundle\Currency\FormatterInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
 
 /**
  * Twig extension to format and convert currencies from templates.
@@ -10,21 +13,22 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @author Cédric Girard <c.girard@lexik.fr>
  * @author Yoann Aparici <y.aparici@lexik.fr>
  */
-class CurrencyExtension extends \Twig_Extension
+class CurrencyExtension extends AbstractExtension
 {
-    /**
-     * @var ContainerInterface
-     */
-    protected $container;
+    /** @var ConverterInterface */
+    protected $converter;
+
+    /** @var FormatterInterface */
+    protected $formatter;
 
     /**
-     * Construct.
-     *
-     * @param ContainerInterface $container  We need the entire container to lazy load the Converter
+     * @param ConverterInterface $converter
+     * @param FormatterInterface $formatter
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(ConverterInterface $converter, FormatterInterface $formatter)
     {
-        $this->container = $container;
+        $this->converter = $converter;
+        $this->formatter = $formatter;
     }
 
     /**
@@ -32,41 +36,25 @@ class CurrencyExtension extends \Twig_Extension
      */
     public function getFilters()
     {
-        return array(
-            new \Twig_SimpleFilter('currency_convert', array($this, 'convert')),
-            new \Twig_SimpleFilter('currency_format', array($this, 'format')),
-            new \Twig_SimpleFilter('currency_convert_format', array($this, 'convertAndFormat')),
-        );
-    }
-
-    /**
-     * @return \Lexik\Bundle\CurrencyBundle\Currency\ConverterInterface
-     */
-    public function getConverter()
-    {
-        return $this->container->get('lexik_currency.converter');
-    }
-
-    /**
-     * @return \Lexik\Bundle\CurrencyBundle\Currency\FormatterInterface
-     */
-    public function getFormatter()
-    {
-        return $this->container->get('lexik_currency.formatter');
+        return [
+            new TwigFilter('currency_convert', [$this, 'convert']),
+            new TwigFilter('currency_format', [$this, 'format']),
+            new TwigFilter('currency_convert_format', [$this, 'convertAndFormat']),
+        ];
     }
 
     /**
      * Convert the given value.
      *
      * @param float   $value
-     * @param string  $targetCurrency  target currency code
-     * @param boolean $round      roud converted value
-     * @param string  $valueCurrency   $value currency code
+     * @param string  $targetCurrency   target currency code
+     * @param boolean $round            round converted value
+     * @param string  $valueCurrency    $value currency code
      * @return float
      */
     public function convert($value, $targetCurrency, $round = true, $valueCurrency = null)
     {
-        return $this->getConverter()->convert($value, $targetCurrency, $round, $valueCurrency);
+        return $this->converter->convert($value, $targetCurrency, $round, $valueCurrency);
     }
 
     /**
@@ -81,10 +69,10 @@ class CurrencyExtension extends \Twig_Extension
     public function format($value, $valueCurrency = null, $decimal = true, $symbol = true)
     {
         if (null === $valueCurrency) {
-            $valueCurrency = $this->getConverter()->getDefaultCurrency();
+            $valueCurrency = $this->converter->getDefaultCurrency();
         }
 
-        return $this->getFormatter()->format($value, $valueCurrency, $decimal, $symbol);
+        return $this->formatter->format($value, $valueCurrency, $decimal, $symbol);
     }
 
     /**
@@ -104,9 +92,6 @@ class CurrencyExtension extends \Twig_Extension
         return $this->format($value, $targetCurrency, $decimal, $symbol);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName()
     {
         return 'lexik_currency.currency_extension';

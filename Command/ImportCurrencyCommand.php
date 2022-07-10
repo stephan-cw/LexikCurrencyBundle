@@ -2,7 +2,9 @@
 
 namespace Lexik\Bundle\CurrencyBundle\Command;
 
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Doctrine\Persistence\ManagerRegistry;
+use Lexik\Bundle\CurrencyBundle\Adapter\AdapterCollector;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -12,8 +14,33 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @author Cédric Girard <c.girard@lexik.fr>
  * @author Yoann Aparici <y.aparici@lexik.fr>
  */
-class ImportCurrencyCommand extends ContainerAwareCommand
+class ImportCurrencyCommand extends Command
 {
+    /** @var ManagerRegistry */
+    private $managerRegistry;
+
+    /** @var AdapterCollector */
+    private $adapterCollector;
+
+    /** @var string */
+    private $currencyClass;
+
+    /**
+     * @param ManagerRegistry $managerRegistry
+     * @param AdapterCollector $adapterCollector
+     * @param string $currencyClass
+     */
+    public function __construct(
+        ManagerRegistry $managerRegistry,
+        AdapterCollector $adapterCollector,
+        string $currencyClass
+    ) {
+        parent::__construct();
+        $this->managerRegistry = $managerRegistry;
+        $this->adapterCollector = $adapterCollector;
+        $this->currencyClass = $currencyClass;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -32,22 +59,21 @@ class ImportCurrencyCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $adapter = $this->getContainer()
-            ->get('lexik_currency.adapter_collector')
+        $adapter = $this->adapterCollector
             ->get($input->getArgument('adapter'));
         $adapter->attachAll();
 
         // Persist currencies
         $entityManagerName = $input->getOption('em');
-        $em = $this->getContainer()->get('doctrine')->getManager($entityManagerName);
+        $em = $this->managerRegistry->getManager($entityManagerName);
 
-        $repository = $em->getRepository($this->getContainer()->getParameter('lexik_currency.currency_class'));
+        $repository = $em->getRepository($this->currencyClass);
 
         foreach ($adapter as $value) {
             // Check if already exist
-            $currency = $repository->findOneBy(array(
+            $currency = $repository->findOneBy([
                 'code' => $value->getCode(),
-            ));
+            ]);
 
             if (!$currency) {
                 $currency = $value;

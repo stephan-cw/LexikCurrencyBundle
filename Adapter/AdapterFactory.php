@@ -29,27 +29,28 @@ class AdapterFactory
     private $currencyClass;
 
     /**
-     * __construct
-     *
-     * @param EntityManager $em
+     * @param Registry $doctrine
+     * @param $defaultCurrency
+     * @param $availableCurrencies
+     * @param $currencyClass
      */
     public function __construct(Registry $doctrine, $defaultCurrency, $availableCurrencies, $currencyClass)
     {
         $this->doctrine = $doctrine;
 
-        $this->currencies = array();
+        $this->currencies = [];
         $this->currencies['default'] = $defaultCurrency;
         $this->currencies['managed'] = $availableCurrencies;
         $this->currencyClass = $currencyClass;
     }
 
     /**
-     * Create an adaper from the given class.
+     * Create an adapter from the given class.
      *
      * @param string $adapterClass
-     * @return Lexik\Bundle\CurrencyBundle\Adapter\AbstractCurrencyAdapter
+     * @return AbstractCurrencyAdapter
      */
-    public function create($adapterClass)
+    public function create(string $adapterClass): AbstractCurrencyAdapter
     {
         $adapter = new $adapterClass();
         $adapter->setDefaultCurrency($this->currencies['default']);
@@ -62,13 +63,17 @@ class AdapterFactory
     /**
      * Create a DoctrineCurrencyAdapter.
      *
-     * @return Lexik\Bundle\CurrencyBundle\Adapter\DoctrineCurrencyAdapter
+     * @param string|null $adapterClass
+     * @param string|null $entityManagerName
+     * @return DoctrineCurrencyAdapter
      */
-    public function createDoctrineAdapter($adapterClass = null, $entityManagerName = null)
+    public function createDoctrineAdapter(string $adapterClass = null, string $entityManagerName = null): DoctrineCurrencyAdapter
     {
         if (null == $adapterClass) {
             $adapterClass = 'Lexik\Bundle\CurrencyBundle\Adapter\DoctrineCurrencyAdapter';
         }
+
+        /** @var DoctrineCurrencyAdapter $adapter */
         $adapter = $this->create($adapterClass);
 
         $em = $this->doctrine->getManager($entityManagerName);
@@ -80,42 +85,54 @@ class AdapterFactory
     /**
      * Create an EcbCurrencyAdapter.
      *
-     * @return Lexik\Bundle\CurrencyBundle\Adapter\EcbCurrencyAdapter
+     * @param string|null $adapterClass
+     * @return EcbCurrencyAdapter
      */
-    public function createEcbAdapter($adapterClass = null)
+    public function createEcbAdapter(string $adapterClass = null): EcbCurrencyAdapter
     {
         if (null == $adapterClass) {
             $adapterClass = 'Lexik\Bundle\CurrencyBundle\Adapter\EcbCurrencyAdapter';
         }
 
-        return $this->create($adapterClass);
+        /** @var EcbCurrencyAdapter $adapter */
+        $adapter = $this->create($adapterClass);
+
+        return $adapter;
     }
 
     /**
      * Create an OerCurrencyAdapter.
      *
-     * @return Lexik\Bundle\CurrencyBundle\Adapter\OerCurrencyAdapter
+     * @param string|null $adapterClass
+     * @return OerCurrencyAdapter
      */
-    public function createOerAdapter($adapterClass = null)
+    public function createOerAdapter(string $adapterClass = null): OerCurrencyAdapter
     {
         if (null == $adapterClass) {
             $adapterClass = 'Lexik\Bundle\CurrencyBundle\Adapter\OerCurrencyAdapter';
         }
 
-        return $this->create($adapterClass);
+        /** @var OerCurrencyAdapter $adapter */
+        $adapter = $this->create($adapterClass);
+
+        return $adapter;
     }
 
     /**
      * Create an YahooCurrencyAdapter.
      *
-     * @return Lexik\Bundle\CurrencyBundle\Adapter\YahooCurrencyAdapter
+     * @param string|null $adapterClass
+     * @return YahooCurrencyAdapter
      */
-    public function createYahooAdapter($adapterClass = null)
+    public function createYahooAdapter(string $adapterClass = null): YahooCurrencyAdapter
     {
         if (null == $adapterClass) {
             $adapterClass = 'Lexik\Bundle\CurrencyBundle\Adapter\YahooCurrencyAdapter';
         }
 
-        return $this->create($adapterClass);
+        /** @var YahooCurrencyAdapter $adapter */
+        $adapter = $this->create($adapterClass);
+
+        return $adapter;
     }
 }

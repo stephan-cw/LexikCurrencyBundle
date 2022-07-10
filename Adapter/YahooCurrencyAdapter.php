@@ -2,7 +2,7 @@
 
 namespace Lexik\Bundle\CurrencyBundle\Adapter;
 
-use Lexik\Bundle\CurrencyBundle\Exception\CurrencyNotFoundException;
+use RuntimeException;
 
 /**
  * Yahoo! Adapter
@@ -19,7 +19,7 @@ class YahooCurrencyAdapter extends AbstractCurrencyAdapter
     /**
      * @var array
      */
-    private $currencyCodes = array();
+    private $currencyCodes = [];
 
 
     /**
@@ -61,12 +61,6 @@ class YahooCurrencyAdapter extends AbstractCurrencyAdapter
 
         $yqlQuery = "select id,Rate from yahoo.finance.xchange where pair in (".$strCodes.")";
 
-        $args = array(
-            'q' => $yqlQuery,
-            'format' => "json",
-            'env' => "store://datatables.org/alltableswithkeys",
-        );
-
         $yqlQueryURL = $this->yahooUrl
             . "?q=" . urlencode($yqlQuery)
             . "&format=json"
@@ -83,10 +77,10 @@ class YahooCurrencyAdapter extends AbstractCurrencyAdapter
 
         // Check if query was okay and result is given
         if (is_null($results)) {
-            new \RuntimeException('YQL query failed!');
+            throw new RuntimeException('YQL query failed!');
         }
 
-        $currencies = array();
+        $currencies = [];
 
         foreach ($results as $row) {
             $code = substr($row->id, 3);

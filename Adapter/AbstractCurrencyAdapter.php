@@ -2,12 +2,16 @@
 
 namespace Lexik\Bundle\CurrencyBundle\Adapter;
 
+use ArrayIterator;
+use InvalidArgumentException;
+use Lexik\Bundle\CurrencyBundle\Entity\Currency;
+
 /**
  *
  * @author Cédric Girard <c.girard@lexik.fr>
  * @author Yoann Aparici <y.aparici@lexik.fr>
  */
-abstract class AbstractCurrencyAdapter extends \ArrayIterator
+abstract class AbstractCurrencyAdapter extends ArrayIterator
 {
     /**
      * @var string
@@ -17,7 +21,7 @@ abstract class AbstractCurrencyAdapter extends \ArrayIterator
     /**
      * @var array
      */
-    protected $managedCurrencies = array();
+    protected $managedCurrencies = [];
 
     /**
      * @var string
@@ -83,7 +87,7 @@ abstract class AbstractCurrencyAdapter extends \ArrayIterator
     public function offsetSet($index, $newval)
     {
         if (!$newval instanceof $this->currencyClass) {
-            throw new \InvalidArgumentException(sprintf('$newval must be an instance of Currency, instance of "%s" given', get_class($newval)));
+            throw new InvalidArgumentException(sprintf('$newval must be an instance of Currency, instance of "%s" given', get_class($newval)));
         }
 
         parent::offsetSet($index, $newval);
@@ -97,7 +101,7 @@ abstract class AbstractCurrencyAdapter extends \ArrayIterator
     public function append($value)
     {
         if (!$value instanceof $this->currencyClass) {
-            throw new \InvalidArgumentException(sprintf('$newval must be an instance of Currency, instance of "%s" given', get_class($value)));
+            throw new InvalidArgumentException(sprintf('$newval must be an instance of Currency, instance of "%s" given', get_class($value)));
         }
 
         parent::append($value);
@@ -122,7 +126,7 @@ abstract class AbstractCurrencyAdapter extends \ArrayIterator
     abstract public function attachAll();
 
     /**
-     * Get identier value for the adapter must be unique
+     * Get identifier value for the adapter must be unique
      * for all the project
      *
      * @return string

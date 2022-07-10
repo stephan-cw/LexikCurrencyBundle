@@ -2,6 +2,7 @@
 
 namespace Lexik\Bundle\CurrencyBundle\Currency;
 
+use InvalidArgumentException;
 use Lexik\Bundle\CurrencyBundle\Adapter\AbstractCurrencyAdapter;
 use Lexik\Bundle\CurrencyBundle\Exception\CurrencyNotFoundException;
 
@@ -34,14 +35,14 @@ class Converter implements ConverterInterface
      * @param AbstractCurrencyAdapter $adapter
      * @param integer                 $precision
      * @param string                  $roundMode
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct(AbstractCurrencyAdapter $adapter, $precision = 2, $roundMode = 'up')
     {
-        $allowedModes = array('up', 'down', 'even', 'odd');
+        $allowedModes = ['up', 'down', 'even', 'odd'];
 
         if (!in_array($roundMode, $allowedModes)) {
-            throw new \InvalidArgumentException(sprintf('Invalid round mode "%s", please use one of the following values: %s', $roundMode, implode(', ', $allowedModes)));
+            throw new InvalidArgumentException(sprintf('Invalid round mode "%s", please use one of the following values: %s', $roundMode, implode(', ', $allowedModes)));
         }
 
         $this->adapter = $adapter;

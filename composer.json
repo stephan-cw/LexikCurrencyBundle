@@ -20,8 +20,20 @@
         }
     ],
     "require": {
-        "php": ">=5.5.9|^7.0",
-        "symfony/framework-bundle": "~2.8|~3.0|~4.0"
+        "php": "^7.1",
+        "symfony/framework-bundle": "^4.0",
+        "symfony/validator": "^4.0",
+        "ext-json": "*",
+        "ext-curl": "*",
+        "ext-simplexml": "*",
+        "ext-intl": "*",
+        "doctrine/doctrine-bundle": "^1.0",
+        "doctrine/orm": "^2.0",
+        "twig/twig": "^2.0"
+    },
+    "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^3.0",
+        "phpunit/phpunit": "^9.0"
     },
     "autoload": {
         "psr-4": { "Lexik\\Bundle\\CurrencyBundle\\": "" }
