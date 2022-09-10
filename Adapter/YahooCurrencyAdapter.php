@@ -124,5 +124,4 @@ class YahooCurrencyAdapter extends AbstractCurrencyAdapter
     private function addCurrency($code) {
         $this->currencyCodes[] = $code;
     }
-
 }

@@ -35,5 +35,4 @@ final class AdapterCollector
 
         return $this->elements[$key];
     }
-
 }

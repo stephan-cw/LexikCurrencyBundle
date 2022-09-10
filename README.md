@@ -1,7 +1,7 @@
 Overview
 ========
 
-This Symfony2 bundle provide a service and a twig extension to convert and display currencies.
+This Symfony bundle provide a service and a twig extension to convert and display currencies.
 
 [![Build Status](https://secure.travis-ci.org/lexik/LexikCurrencyBundle.png?branch=master)](http://travis-ci.org/lexik/LexikCurrencyBundle)
 [![Latest Stable Version](https://poser.pugx.org/lexik/currency-bundle/v/stable)](https://packagist.org/packages/lexik/currency-bundle)
@@ -15,7 +15,7 @@ Add the bunde to your `composer.json` file:
 ```javascript
 require: {
     // ...
-    "lexik/currency-bundle": "~2.0"
+    "mabzzz/currency-bundle": "~3.0"
     // ...
 }
 ```
@@ -27,7 +27,7 @@ Then run a composer update:
 ```shell
 composer.phar update
 # OR
-composer.phar update lexik/currency-bundle # to only update the bundle
+composer.phar update mabzzz/currency-bundle # to only update the bundle
 ```
 
 Register the bundle with your kernel:
@@ -72,14 +72,14 @@ Initialize currencies
 To initialize the currencies rate in the database run the following command:
 
 ```
-./app/console lexik:currency:import <currency adapter identifier>
+./bin/console lexik:currency:import <currency adapter identifier>
 ```
 
 Example by using the ECB adapter, to get rates from the European Central Bank.
 In the command line `ecb` is the value returned by the `getIdentifier()` method of the adapter class.
 
 ```
-./app/console lexik:currency:import ecb
+./bin/console lexik:currency:import ecb
 ```
 
 Usage
@@ -91,10 +91,10 @@ Use the `convert()` method from the `lexik_currency.converter` service:
 
 ```php
 <?php
-// by default the amount will rounded and the amount have to be in the default currency
+// by default the amount will be rounded and the amount have to be in the default currency
 $convertedAmount = $container->get('lexik_currency.converter')->convert($amount, $targetCurrency);
 
-// here the amount won't be rounded and we specify that $amount currency is 'USD'
+// here the amount won't be rounded, and we specify that $amount currency is 'USD'
 $convertedAmount = $container->get('lexik_currency.converter')->convert($amount, $targetCurrency, false, 'USD');
 ```
 
@@ -165,7 +165,7 @@ class RainbowCurrencyAdapter extends AbstractCurrencyAdapter
         $this[$euro->getCode()] = $euro;
 
         // Get other currencies
-        $currencies = // get all currencies with their rate (from a file, an url, etc)
+        $currencies = // get all currencies with their rate (from a file, an url, etc.)
 
         foreach ($currencies as $code => $rate) {
             if (in_array($code, $this->managedCurrencies)) { // you can check if the currency is in the managed currencies
@@ -216,5 +216,5 @@ Then define the adapter as a service, don't forget the `lexik_currency.adapter` 
 And import the currencies by using your adapter:
 
 ```
-./app/console lexik:currency:import rainbow
+./bin/console lexik:currency:import rainbow
 ```

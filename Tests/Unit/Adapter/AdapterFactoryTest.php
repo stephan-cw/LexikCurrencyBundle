@@ -11,6 +11,10 @@ class AdapterFactoryTest extends BaseUnitTestCase
 
     protected $doctrine;
 
+    /**
+     * @throws \Doctrine\ORM\Tools\ToolsException
+     * @throws \Doctrine\ORM\ORMException
+     */
     protected function setUp(): void
     {
         $this->doctrine = $this->getMockDoctrine();

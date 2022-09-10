@@ -49,7 +49,7 @@ abstract class AbstractCurrencyAdapter extends ArrayIterator
     }
 
     /**
-     * Get managedCurrencies
+     * Set managed currencies
      *
      * @param array $currencies
      */
@@ -59,7 +59,7 @@ abstract class AbstractCurrencyAdapter extends ArrayIterator
     }
 
     /**
-     * Get managedCurrencies
+     * Get managed currencies
      *
      * @return array
      */
@@ -69,28 +69,38 @@ abstract class AbstractCurrencyAdapter extends ArrayIterator
     }
 
     /**
-     * Get managedCurrencies
+     * Set currency class
      *
-     * @return array
+     * @param string $currencyClass
      */
     public function setCurrencyClass($currencyClass)
     {
-        return $this->currencyClass = $currencyClass;
+        $this->currencyClass = $currencyClass;
+    }
+
+    /**
+     * Get currency class
+     *
+     * @return string
+     */
+    public function getCurrencyClass()
+    {
+        return $this->currencyClass;
     }
 
     /**
      * Set object
      *
-     * @param mixed $index
-     * @param Currency $newval
+     * @param mixed $key
+     * @param Currency $value
      */
-    public function offsetSet($index, $newval)
+    public function offsetSet($key, $value)
     {
-        if (!$newval instanceof $this->currencyClass) {
-            throw new InvalidArgumentException(sprintf('$newval must be an instance of Currency, instance of "%s" given', get_class($newval)));
+        if (!$value instanceof $this->currencyClass) {
+            throw new InvalidArgumentException(sprintf('$value must be an instance of Currency, instance of "%s" given', get_class($value)));
         }
 
-        parent::offsetSet($index, $newval);
+        parent::offsetSet($key, $value);
     }
 
     /**
@@ -101,7 +111,7 @@ abstract class AbstractCurrencyAdapter extends ArrayIterator
     public function append($value)
     {
         if (!$value instanceof $this->currencyClass) {
-            throw new InvalidArgumentException(sprintf('$newval must be an instance of Currency, instance of "%s" given', get_class($value)));
+            throw new InvalidArgumentException(sprintf('$value must be an instance of Currency, instance of "%s" given', get_class($value)));
         }
 
         parent::append($value);

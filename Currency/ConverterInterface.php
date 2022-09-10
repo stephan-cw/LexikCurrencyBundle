@@ -10,10 +10,10 @@ interface ConverterInterface
     /**
      * Convert from default currency to another.
      *
-     * @param float   $value
-     * @param string  $targetCurrency
-     * @param boolean $round
-     * @param string  $valueCurrency
+     * @param float       $value
+     * @param string      $targetCurrency
+     * @param boolean     $round
+     * @param string|null $valueCurrency
      * @return float
      */
     public function convert($value, $targetCurrency, $round = true, $valueCurrency = null);

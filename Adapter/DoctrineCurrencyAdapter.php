@@ -50,26 +50,28 @@ class DoctrineCurrencyAdapter extends AbstractCurrencyAdapter
 
     /**
      * {@inheritdoc}
+     * @throws Exception
      */
-    public function offsetExists($index)
+    public function offsetExists($key)
     {
         if (!$this->isInitialized()) {
             $this->initialize();
         }
 
-        return parent::offsetExists($index);
+        return parent::offsetExists($key);
     }
 
     /**
      * {@inheritdoc}
+     * @throws Exception
      */
-    public function offsetGet($index)
+    public function offsetGet($key)
     {
         if (!$this->isInitialized()) {
             $this->initialize();
         }
 
-        return parent::offsetGet($index);
+        return parent::offsetGet($key);
     }
 
     /**
