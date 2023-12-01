@@ -1,5 +1,5 @@
 {
-    "name": "mabzzz/currency-bundle",
+    "name": "cobbleweb/currency-bundle",
     "type": "symfony-bundle",
     "description": "This is a fork of lexik/currency-bundle with added support for Symfony4",
     "keywords": ["Symfony", "bundle", "currency"],
@@ -27,7 +27,7 @@
         "ext-curl": "*",
         "ext-simplexml": "*",
         "ext-intl": "*",
-        "doctrine/doctrine-bundle": "^1.0",
+        "doctrine/doctrine-bundle": ">=2.0 <2.8",
         "doctrine/orm": "^2.0",
         "twig/twig": "^2.0"
     },
